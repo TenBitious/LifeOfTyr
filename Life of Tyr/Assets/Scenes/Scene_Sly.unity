@@ -121,6 +121,7 @@ MonoBehaviour:
   button_Right: 100
   button_Left: 97
   button_Back: 115
+  button_Jump: 32
 --- !u!114 &631018284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,7 +146,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 48
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!65 &631018286
 BoxCollider:
@@ -171,6 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movement_Speed: 15
+  jump_Speed: 300
   shoot_Speed: 0.6
   shoot_Distance: 16
 --- !u!114 &631018288
@@ -227,7 +229,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: ca4e81b0d6f7e804393d4aca738eb6e3, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
@@ -369,7 +371,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a4030df05cd6f04438fc25004f2f988e, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
@@ -505,7 +507,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000010463684076, guid: 77b5988ef46bc38498609afd86d0dd19, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -3.71
       objectReference: {fileID: 0}
     - target: {fileID: 4000010463684076, guid: 77b5988ef46bc38498609afd86d0dd19, type: 2}
       propertyPath: m_LocalRotation.x

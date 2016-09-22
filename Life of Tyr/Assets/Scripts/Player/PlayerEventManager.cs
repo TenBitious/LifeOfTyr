@@ -23,6 +23,14 @@ public class PlayerEventManager : MonoBehaviour {
     public delegate void ButtonBackReleaseAction();
     public static event ButtonBackReleaseAction OnButtonBackRelease;
 
+    public delegate void MouseLeftAction();
+    public static event MouseLeftAction OnMouseLeft;
+
+    public delegate void ButtonJumpAction();
+    public static event ButtonJumpAction OnButtonJump;
+    public delegate void ButtonJumpReleaseAction();
+    public static event ButtonJumpReleaseAction OnButtonJumpRelease;
+
     public void Forward()
     {
         if (OnButtonForward != null)
@@ -84,6 +92,28 @@ public class PlayerEventManager : MonoBehaviour {
         if (OnButtonBackRelease != null)
         {
             OnButtonBackRelease();
+        }
+    }
+
+    public void Jump()
+    {
+        if (OnButtonJump != null)
+        {
+            OnButtonJump();
+        }
+    }
+    public void JumpRelease()
+    {
+        if (OnButtonJumpRelease != null)
+        {
+            OnButtonJumpRelease();
+        }
+    }
+    public void MouseLeft()
+    {
+        if (OnMouseLeft != null)
+        {
+            OnMouseLeft();
         }
     }
    

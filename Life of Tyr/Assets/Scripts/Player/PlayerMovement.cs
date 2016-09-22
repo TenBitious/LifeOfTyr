@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour {
 
     Vector3 _Move_Position;
 
-    private bool can_Move;
+    private bool can_Move, can_Jump;
 
     private float movement_Speed;
     private float speed_This_Frame;
@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour {
         movement_Speed = PlayerStats.Instance.movement_Speed;
         m_Rigidbody = GetComponent<Rigidbody>();
         can_Move = true;
+        can_Jump = true;
     }
 	
 	// Update is called once per frame
@@ -33,6 +34,7 @@ public class PlayerMovement : MonoBehaviour {
         PlayerEventManager.OnButtonBack += MoveBackward;
         PlayerEventManager.OnButtonRight += StrifeRight;
         PlayerEventManager.OnButtonLeft += StrifeLeft;
+        PlayerEventManager.OnButtonJump += Jump;
     }
 
     
@@ -41,6 +43,8 @@ public class PlayerMovement : MonoBehaviour {
         if (PlayerStats.Instance.Shooting_Hook) can_Move = false;
         else can_Move = true;
     }
+
+    
     void HandleMovePosition()
     {
         GetSpeedThisFrame();//Get speed
@@ -68,6 +72,18 @@ public class PlayerMovement : MonoBehaviour {
     void StrifeRight()
     {
         _Move_Position += transform.right * speed_This_Frame;
+    }
+
+    void Jump()
+    {
+        //Jump
+        if (PlayerStats.Instance.Grounded())
+        {
+            Debug.Log("Jump");
+            m_Rigidbody.AddForce(Vector3.up * PlayerStats.Instance.jump_Speed, ForceMode.Force);
+        }
+        
+        can_Jump = false;
     }
 
 }

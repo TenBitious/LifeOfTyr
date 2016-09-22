@@ -4,7 +4,8 @@ using System.Collections.Generic;
 
 public class PlayerInput : MonoBehaviour {
     Dictionary<string, KeyCode> directions = new Dictionary<string, KeyCode>();
-    public KeyCode button_Forward = KeyCode.W, button_Right = KeyCode.D, button_Left = KeyCode.A, button_Back = KeyCode.S;
+    public KeyCode button_Forward = KeyCode.W, button_Right = KeyCode.D, button_Left = KeyCode.A, button_Back = KeyCode.S, button_Jump = KeyCode.Space;
+    
 
     PlayerEventManager m_EventManager;
     
@@ -17,7 +18,7 @@ public class PlayerInput : MonoBehaviour {
         directions.Add("Right", button_Right);
         directions.Add("Left", button_Left);
         directions.Add("Back", button_Back);
-
+        directions.Add("Jump", button_Jump);
 	}
 	
 
@@ -26,6 +27,7 @@ public class PlayerInput : MonoBehaviour {
     {
         GetKeyInput();
         GetMouseRotation();
+        GetMouseInput();
 	}
 
     private void GetKeyInput()
@@ -46,6 +48,14 @@ public class PlayerInput : MonoBehaviour {
     private void GetMouseRotation()
     {
 
+    }
+
+    private void GetMouseInput()
+    {
+        if(Input.GetMouseButton(0))
+        {
+            m_EventManager.MouseLeft();
+        }
     }
     void LateUpdate()
     {

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 using System.Collections;
 
 public class PlayerStats : MonoBehaviour {
@@ -42,17 +43,57 @@ public class PlayerStats : MonoBehaviour {
 
     public bool Grounded()
     {
-        Debug.Log("Check grounded");
-        Vector3 position1 = GetComponent<Collider>().bounds.min;
-        position1.y -= 0.1f; 
-        Debug.DrawRay(position1, Vector3.down*5);
-        //Check 4 corners
-        RaycastHit hit;
-        if (Physics.Raycast(position1, Vector3.down*2f, out hit))
+        Vector3 collider_Bounds = GetComponent<Collider>().bounds.extents;
+        BoxCollider b = GetComponent<BoxCollider>();
+        Dictionary<Vector3, bool> corners = new Dictionary<Vector3, bool>();
+        Vector3 corner_1 = transform.TransformPoint(b.center + new Vector3(b.size.x, -b.size.y, b.size.z) * 0.5f);
+        Vector3 corner_2 = transform.TransformPoint(b.center + new Vector3(-b.size.x, -b.size.y, b.size.z) * 0.5f);
+        Vector3 corner_3 = transform.TransformPoint(b.center + new Vector3(-b.size.x, -b.size.y, -b.size.z) * 0.5f);
+        Vector3 corner_4 = transform.TransformPoint(b.center + new Vector3(b.size.x, -b.size.y, -b.size.z) * 0.5f);
+        corners.Add(corner_1, Physics.Raycast(corner_1, Vector3.down, collider_Bounds.y + 0.1f));
+        corners.Add(corner_2, Physics.Raycast(corner_2, Vector3.down, collider_Bounds.y + 0.1f));
+        corners.Add(corner_3, Physics.Raycast(corner_3, Vector3.down, collider_Bounds.y + 0.1f));
+        corners.Add(corner_4, Physics.Raycast(corner_4, Vector3.down, collider_Bounds.y + 0.1f));
+
+
+
+        //Midle of hitbox
+        bool hitGround = Physics.Raycast(transform.position, Vector3.down, collider_Bounds.y + 0.1f);
+        bool hitGroundCorner1 = Physics.Raycast(corner_1, Vector3.down, collider_Bounds.y + 0.1f);
+        bool hitGroundCorner2= Physics.Raycast(corner_2, Vector3.down, collider_Bounds.y + 0.1f);
+        bool hitGroundCorner3 = Physics.Raycast(corner_3, Vector3.down, collider_Bounds.y + 0.1f);
+        bool hitGroundCorner4 = Physics.Raycast(corner_4, Vector3.down, collider_Bounds.y + 0.1f);
+
+        foreach (KeyValuePair<Vector3, bool> corner in corners)
         {
-            Debug.Log("Grounden object name: " + hit.transform.gameObject.name);
+            if (corner.Value)
+            {
+                Debug.DrawLine(corner.Key, new Vector3(corner.Key.x, corner.Key.y + collider_Bounds.y, corner.Key.z), Color.green, 1f);
+            }
+            else
+            {
+                Debug.DrawLine(corner.Key, new Vector3(corner.Key.x, corner.Key.y + collider_Bounds.y, corner.Key.z), Color.red, .5f);
+            }
+        }
+        if (corners.ContainsValue(true))
+        {
             return true;
         }
-        return false;
+        else
+        {
+            Debug.DrawLine(transform.position, new Vector3(transform.position.x, transform.position.y + collider_Bounds.y, transform.position.z), Color.red, .5f);
+            return false;
+        }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        BoxCollider b = GetComponent<BoxCollider>();
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(transform.TransformPoint(b.center + new Vector3(b.size.x, -b.size.y, b.size.z) * 0.5f),.1f);
+        Gizmos.DrawSphere(transform.TransformPoint(b.center + new Vector3(-b.size.x, -b.size.y, b.size.z) * 0.5f), .1f);
+        Gizmos.DrawSphere(transform.TransformPoint(b.center + new Vector3(-b.size.x, -b.size.y, -b.size.z) * 0.5f), .1f);
+        Gizmos.DrawSphere(transform.TransformPoint(b.center + new Vector3(b.size.x, -b.size.y, -b.size.z) * 0.5f), .1f);
     }
 }

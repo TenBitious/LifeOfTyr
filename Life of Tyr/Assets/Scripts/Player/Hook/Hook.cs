@@ -48,6 +48,11 @@ public class Hook : MonoBehaviour {
                 Debug.Log("Hit wall");
                 StartPull();
             }
+            else
+            {
+                Debug.Log("Hit something, startretract");
+                StartRetracting();
+            }
         }
     }
     public void StartShoot(float t_Shoot_Distance, Vector3 t_shoot_Direction, Vector3 t_Start_Position)

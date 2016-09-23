@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour {
 
     Vector3 _Move_Position;
 
-    private bool can_Move, can_Jump;
+    private bool can_Move;
 
     private float movement_Speed;
     private float speed_This_Frame;
@@ -18,7 +18,6 @@ public class PlayerMovement : MonoBehaviour {
         movement_Speed = PlayerStats.Instance.movement_Speed;
         m_Rigidbody = GetComponent<Rigidbody>();
         can_Move = true;
-        can_Jump = true;
     }
 	
 	// Update is called once per frame
@@ -83,7 +82,6 @@ public class PlayerMovement : MonoBehaviour {
             m_Rigidbody.AddForce(Vector3.up * PlayerStats.Instance.jump_Speed, ForceMode.Force);
         }
         
-        can_Jump = false;
     }
 
 }

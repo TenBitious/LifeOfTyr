@@ -8,6 +8,7 @@ public class PlayerStats : MonoBehaviour {
     public static PlayerStats Instance { get { return _instance; } }
 
     public float movement_Speed, jump_Speed;
+    public float jump_Cooldown;
     public float shoot_Speed, shoot_Distance;
 
     private bool is_Shooting_Hook = false;
@@ -43,57 +44,18 @@ public class PlayerStats : MonoBehaviour {
 
     public bool Grounded()
     {
-        Vector3 collider_Bounds = GetComponent<Collider>().bounds.extents;
-        BoxCollider b = GetComponent<BoxCollider>();
-        Dictionary<Vector3, bool> corners = new Dictionary<Vector3, bool>();
-        Vector3 corner_1 = transform.TransformPoint(b.center + new Vector3(b.size.x, -b.size.y, b.size.z) * 0.5f);
-        Vector3 corner_2 = transform.TransformPoint(b.center + new Vector3(-b.size.x, -b.size.y, b.size.z) * 0.5f);
-        Vector3 corner_3 = transform.TransformPoint(b.center + new Vector3(-b.size.x, -b.size.y, -b.size.z) * 0.5f);
-        Vector3 corner_4 = transform.TransformPoint(b.center + new Vector3(b.size.x, -b.size.y, -b.size.z) * 0.5f);
-        corners.Add(corner_1, Physics.Raycast(corner_1, Vector3.down, collider_Bounds.y + 0.1f));
-        corners.Add(corner_2, Physics.Raycast(corner_2, Vector3.down, collider_Bounds.y + 0.1f));
-        corners.Add(corner_3, Physics.Raycast(corner_3, Vector3.down, collider_Bounds.y + 0.1f));
-        corners.Add(corner_4, Physics.Raycast(corner_4, Vector3.down, collider_Bounds.y + 0.1f));
+        CapsuleCollider m_CapsuleCollider = GetComponent<CapsuleCollider>();
+        float distance_To_Ground = m_CapsuleCollider.bounds.extents.y + 0.1f;
+        float capsule_Width = m_CapsuleCollider.bounds.extents.x;
 
+        Ray cast_Direction = new Ray(transform.position,Vector3.down);
 
+        Debug.DrawRay(transform.position,Vector3.down* distance_To_Ground, Color.red,.5f);
 
-        //Midle of hitbox
-        bool hitGround = Physics.Raycast(transform.position, Vector3.down, collider_Bounds.y + 0.1f);
-        bool hitGroundCorner1 = Physics.Raycast(corner_1, Vector3.down, collider_Bounds.y + 0.1f);
-        bool hitGroundCorner2= Physics.Raycast(corner_2, Vector3.down, collider_Bounds.y + 0.1f);
-        bool hitGroundCorner3 = Physics.Raycast(corner_3, Vector3.down, collider_Bounds.y + 0.1f);
-        bool hitGroundCorner4 = Physics.Raycast(corner_4, Vector3.down, collider_Bounds.y + 0.1f);
-
-        foreach (KeyValuePair<Vector3, bool> corner in corners)
-        {
-            if (corner.Value)
-            {
-                Debug.DrawLine(corner.Key, new Vector3(corner.Key.x, corner.Key.y + collider_Bounds.y, corner.Key.z), Color.green, 1f);
-            }
-            else
-            {
-                Debug.DrawLine(corner.Key, new Vector3(corner.Key.x, corner.Key.y + collider_Bounds.y, corner.Key.z), Color.red, .5f);
-            }
-        }
-        if (corners.ContainsValue(true))
+        if (Physics.SphereCast(cast_Direction, capsule_Width, distance_To_Ground))
         {
             return true;
         }
-        else
-        {
-            Debug.DrawLine(transform.position, new Vector3(transform.position.x, transform.position.y + collider_Bounds.y, transform.position.z), Color.red, .5f);
-            return false;
-        }
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        BoxCollider b = GetComponent<BoxCollider>();
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawSphere(transform.TransformPoint(b.center + new Vector3(b.size.x, -b.size.y, b.size.z) * 0.5f),.1f);
-        Gizmos.DrawSphere(transform.TransformPoint(b.center + new Vector3(-b.size.x, -b.size.y, b.size.z) * 0.5f), .1f);
-        Gizmos.DrawSphere(transform.TransformPoint(b.center + new Vector3(-b.size.x, -b.size.y, -b.size.z) * 0.5f), .1f);
-        Gizmos.DrawSphere(transform.TransformPoint(b.center + new Vector3(b.size.x, -b.size.y, -b.size.z) * 0.5f), .1f);
+        return false;
     }
 }

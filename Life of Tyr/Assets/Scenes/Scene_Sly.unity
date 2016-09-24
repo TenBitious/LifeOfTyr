@@ -235,7 +235,7 @@ BoxCollider:
   m_GameObject: {fileID: 631018280}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -251,7 +251,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movement_Speed: 15
-  jump_Speed: 150
+  jump_Speed: 250
+  jump_Cooldown: 1
   shoot_Speed: 0.6
   shoot_Distance: 16
 --- !u!114 &631018288
@@ -277,6 +278,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34b9bea254c1b634980124f120ab0ceb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!136 &631018290
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 631018280}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &901072703
 GameObject:
   m_ObjectHideFlags: 0
@@ -740,7 +754,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000010463684076, guid: 77b5988ef46bc38498609afd86d0dd19, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 4.64
+      value: 4.776
       objectReference: {fileID: 0}
     - target: {fileID: 4000010463684076, guid: 77b5988ef46bc38498609afd86d0dd19, type: 2}
       propertyPath: m_LocalPosition.z

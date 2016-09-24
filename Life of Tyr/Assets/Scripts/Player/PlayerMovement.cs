@@ -7,10 +7,13 @@ public class PlayerMovement : MonoBehaviour {
 
     Vector3 _Move_Position;
 
-    private bool can_Move;
+    private bool can_Move, can_Jump;
 
     private float movement_Speed;
     private float speed_This_Frame;
+
+    private float jump_Timer;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -24,6 +27,7 @@ public class PlayerMovement : MonoBehaviour {
 	void FixedUpdate ()
     {
         CheckCanMove();
+        HandleJumpCooldown();
         HandleMovePosition();
     }
     
@@ -42,13 +46,17 @@ public class PlayerMovement : MonoBehaviour {
         if (PlayerStats.Instance.Shooting_Hook) can_Move = false;
         else can_Move = true;
     }
-
     
     void HandleMovePosition()
     {
         GetSpeedThisFrame();//Get speed
 
-        if (can_Move) m_Rigidbody.MovePosition(transform.position + _Move_Position * speed_This_Frame);
+        if (can_Move)
+        {
+            m_Rigidbody.MovePosition(transform.position + _Move_Position * speed_This_Frame);
+        }
+
+        //Reset temporary move position
         _Move_Position = Vector3.zero;
     }
     void GetSpeedThisFrame()
@@ -76,12 +84,22 @@ public class PlayerMovement : MonoBehaviour {
     void Jump()
     {
         //Jump
-        if (PlayerStats.Instance.Grounded())
-        {
-            Debug.Log("Jump");
+        if (PlayerStats.Instance.Grounded() && can_Jump)
+        {//Check if on ground
             m_Rigidbody.AddForce(Vector3.up * PlayerStats.Instance.jump_Speed, ForceMode.Force);
+            can_Jump = false;
+            jump_Timer = 0f;
         }
         
     }
 
+    void HandleJumpCooldown()
+    {
+        jump_Timer += Time.deltaTime;
+
+        if(jump_Timer >= PlayerStats.Instance.jump_Cooldown)
+        {
+            can_Jump = true;
+        }
+    }
 }

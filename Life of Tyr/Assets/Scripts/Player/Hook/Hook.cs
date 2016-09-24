@@ -108,12 +108,16 @@ public class Hook : MonoBehaviour {
 
         pull_Direction = transform.position - PlayerGlobal.Instance.transform.position;
         pull_Direction.Normalize();
-        //Pull player to position
     }
     void HandlePulling()
     {
-        m_Rigidbody.velocity = Vector3.zero;
+        //Get pull direction
+        pull_Direction = transform.position - PlayerGlobal.Instance.transform.position;
+        pull_Direction.Normalize();
+
+        //Pull player towards hook
         PlayerGlobal.Instance.Rigidbody.MovePosition(PlayerGlobal.Instance.transform.position + pull_Direction * shoot_Speed);
+
         //Check if back at player
         if (Vector3.Distance(PlayerGlobal.Instance.transform.position, transform.position) < 2f)
         {

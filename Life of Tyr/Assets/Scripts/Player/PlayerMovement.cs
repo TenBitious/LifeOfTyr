@@ -84,7 +84,7 @@ public class PlayerMovement : MonoBehaviour {
     void Jump()
     {
         //Jump
-        if (PlayerStats.Instance.Grounded() && can_Jump)
+        if (PlayerGlobal.Instance.Grounded() && can_Jump)
         {//Check if on ground
             m_Rigidbody.AddForce(Vector3.up * PlayerStats.Instance.jump_Speed, ForceMode.Force);
             can_Jump = false;

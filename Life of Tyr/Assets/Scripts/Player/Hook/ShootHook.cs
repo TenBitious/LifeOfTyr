@@ -21,8 +21,8 @@ public class ShootHook : MonoBehaviour {
         if (!PlayerStats.Instance.Shooting_Hook)
         {
             Hook hook = Instantiate(m_Hook) as Hook;
-            Vector3 start_Position = Camera.main.transform.position + Camera.main.transform.forward * 2f;
-            hook.StartShoot(PlayerStats.Instance.shoot_Distance, Camera.main.transform.forward, start_Position);
+            Vector3 start_Position = Camera.main.transform.position + Camera.main.transform.forward;
+            hook.StartShoot(PlayerStats.Instance.shoot_Distance, Camera.main.transform.forward, start_Position, Camera.main.transform.rotation);
         }
     }
 }

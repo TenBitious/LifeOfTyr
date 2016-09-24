@@ -56,6 +56,11 @@ public class PlayerInput : MonoBehaviour {
         {
             m_EventManager.MouseLeft();
         }
+
+        if (Input.GetMouseButton(1))
+        {
+            m_EventManager.MouseRight();
+        }
     }
     void LateUpdate()
     {

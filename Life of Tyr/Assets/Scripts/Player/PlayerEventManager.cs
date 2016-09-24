@@ -25,6 +25,8 @@ public class PlayerEventManager : MonoBehaviour {
 
     public delegate void MouseLeftAction();
     public static event MouseLeftAction OnMouseLeft;
+    public delegate void MouseRightAction();
+    public static event MouseRightAction OnMouseRight;
 
     public delegate void ButtonJumpAction();
     public static event ButtonJumpAction OnButtonJump;
@@ -114,6 +116,14 @@ public class PlayerEventManager : MonoBehaviour {
         if (OnMouseLeft != null)
         {
             OnMouseLeft();
+        }
+    }
+
+    public void MouseRight()
+    {
+        if(OnMouseRight != null)
+        {
+            OnMouseRight();
         }
     }
    

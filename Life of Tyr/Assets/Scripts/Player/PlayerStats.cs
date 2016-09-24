@@ -41,21 +41,4 @@ public class PlayerStats : MonoBehaviour {
         get { return is_Shooting_Hook; }
         set { is_Shooting_Hook = value; }
     }
-
-    public bool Grounded()
-    {
-        CapsuleCollider m_CapsuleCollider = GetComponent<CapsuleCollider>();
-        float distance_To_Ground = m_CapsuleCollider.bounds.extents.y + 0.1f;
-        float capsule_Width = m_CapsuleCollider.bounds.extents.x;
-
-        Ray cast_Direction = new Ray(transform.position,Vector3.down);
-
-        Debug.DrawRay(transform.position,Vector3.down* distance_To_Ground, Color.red,.5f);
-
-        if (Physics.SphereCast(cast_Direction, capsule_Width, distance_To_Ground))
-        {
-            return true;
-        }
-        return false;
-    }
 }

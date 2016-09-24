@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum HookState { Shooting, Retracting, Pulling_Player, Pulling_Object, Waiting_Pull_Player_Order, Waiting_Pull_Object};
 public class Hook : MonoBehaviour {
 
-    private bool is_Shooting, is_Retracting, is_Pulling;
+    private HookState m_HookState;
 
     private float  max_Shoot_Distance;
     private Vector3 shoot_Direction, retract_Direction, pull_Direction;
@@ -11,6 +12,10 @@ public class Hook : MonoBehaviour {
 
     private Rigidbody m_Rigidbody;
 
+    void Awake()
+    {
+        Physics.IgnoreCollision(GetComponent<Collider>(), PlayerGlobal.Instance.GetComponent<Collider>());
+    }
 	// Use this for initialization
 	void Start () 
     {
@@ -22,31 +27,32 @@ public class Hook : MonoBehaviour {
 	void FixedUpdate () 
     {
 	    //Handle shooting
-        if (is_Shooting)
+        if (m_HookState == HookState.Shooting)
         {
             HandleShooting();
         }
         //Handle retracting
-        if (is_Retracting)
+        if (m_HookState == HookState.Retracting)
         {
             HandleRetracting();
         }
 
-        if (is_Pulling)
+        if (m_HookState == HookState.Pulling_Player)
         {
-            HandlePulling();
+            HandlePullingPlayer();
         }
+        
         //Destroy
 	}
 
     void OnCollisionEnter(Collision col)
     {
-        if (is_Shooting)
+        if (m_HookState == HookState.Shooting)
         {
             if (col.gameObject.name == "Wall")
             {
                 Debug.Log("Hit wall");
-                StartPull();
+                HitWall();
             }
             else
             {
@@ -55,22 +61,23 @@ public class Hook : MonoBehaviour {
             }
         }
     }
-    public void StartShoot(float t_Shoot_Distance, Vector3 t_shoot_Direction, Vector3 t_Start_Position)
+    public void StartShoot(float t_Shoot_Distance, Vector3 t_shoot_Direction, Vector3 t_Start_Position, Quaternion t_Rotation)
     {
         //Set shoot position, direction, rotation and timer;
         transform.position = t_Start_Position;
         shoot_Direction = t_shoot_Direction;
-        transform.rotation = Quaternion.LookRotation(shoot_Direction) * transform.rotation;
+        transform.rotation = t_Rotation;
         max_Shoot_Distance = t_Shoot_Distance;
-
-        is_Shooting = true;
+        
+        m_HookState = HookState.Shooting;
         PlayerStats.Instance.Shooting_Hook = true;
     }
 
     void HandleShooting()
     {
         m_Rigidbody.MovePosition(transform.position + shoot_Direction * shoot_Speed);
-        //If distance reached or hit object start retract
+
+        //If distance reached
         if (Vector3.Distance(Camera.main.transform.position,transform.position) > max_Shoot_Distance)//Reached distance
         {
             StartRetracting();
@@ -79,10 +86,9 @@ public class Hook : MonoBehaviour {
 
     void StartRetracting()
     {
+        UnregisterDelegates();
         m_Rigidbody.velocity = Vector3.zero;
-        
-        is_Shooting = false;
-        is_Retracting = true;
+        m_HookState = HookState.Retracting;
     }
 
     void HandleRetracting()
@@ -101,15 +107,20 @@ public class Hook : MonoBehaviour {
         }
     }
 
-    void StartPull()
+    void HitWall()
     {
-        is_Pulling = true;
-        is_Shooting = false;
+        PlayerEventManager.OnMouseLeft += StartPullPlayer;
+        PlayerEventManager.OnMouseRight += StartRetracting;
 
-        pull_Direction = transform.position - PlayerGlobal.Instance.transform.position;
-        pull_Direction.Normalize();
+        m_HookState = HookState.Waiting_Pull_Player_Order;
     }
-    void HandlePulling()
+
+    void StartPullPlayer()
+    {
+        UnregisterDelegates();
+        m_HookState = HookState.Pulling_Player;
+    }
+    void HandlePullingPlayer()
     {
         //Get pull direction
         pull_Direction = transform.position - PlayerGlobal.Instance.transform.position;
@@ -126,10 +137,22 @@ public class Hook : MonoBehaviour {
         }
     }
 
+    void HandleWaitingPullAction()
+    {
+        //Accept pull
+        //Decline pull
+    }
+
     void EndHook()
     {
         PlayerStats.Instance.Shooting_Hook = false;
         //Destroy
         Destroy(this.gameObject);
+    }
+
+    void UnregisterDelegates()
+    {
+        PlayerEventManager.OnMouseLeft -= StartPullPlayer;
+        PlayerEventManager.OnMouseRight -= StartRetracting;
     }
 }

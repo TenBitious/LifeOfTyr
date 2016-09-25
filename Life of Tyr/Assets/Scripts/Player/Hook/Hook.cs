@@ -10,6 +10,8 @@ public class Hook : MonoBehaviour {
     private Vector3 shoot_Direction, retract_Direction, pull_Direction;
     private float shoot_Speed;
 
+    private Wall wall_Hooked_On;
+
     private Rigidbody m_Rigidbody;
 
     void Awake()
@@ -49,9 +51,9 @@ public class Hook : MonoBehaviour {
     {
         if (m_HookState == HookState.Shooting)
         {
-            if (col.gameObject.name == "Wall")
+            if (col.gameObject.GetComponent<Wall>() != null)
             {
-                Debug.Log("Hit wall");
+                wall_Hooked_On = col.gameObject.GetComponent<Wall>();
                 HitWall();
             }
             else
@@ -86,6 +88,11 @@ public class Hook : MonoBehaviour {
 
     void StartRetracting()
     {
+        if(wall_Hooked_On != null)
+        {
+            wall_Hooked_On.HookRelease();
+        }
+
         UnregisterDelegates();
         m_Rigidbody.velocity = Vector3.zero;
         m_HookState = HookState.Retracting;
@@ -109,14 +116,18 @@ public class Hook : MonoBehaviour {
 
     void HitWall()
     {
+        wall_Hooked_On.HookHit();
+
+        Debug.Log("Hit wall");
         PlayerEventManager.OnMouseLeft += StartPullPlayer;
         PlayerEventManager.OnMouseRight += StartRetracting;
-
+        
         m_HookState = HookState.Waiting_Pull_Player_Order;
     }
 
     void StartPullPlayer()
     {
+        Debug.Log("Start pull player");
         UnregisterDelegates();
         m_HookState = HookState.Pulling_Player;
     }
@@ -133,6 +144,7 @@ public class Hook : MonoBehaviour {
         if (Vector3.Distance(PlayerGlobal.Instance.transform.position, transform.position) < 2f)
         {
             PlayerGlobal.Instance.Rigidbody.velocity = Vector3.zero;
+            wall_Hooked_On.HookRelease();
             EndHook();
         }
     }

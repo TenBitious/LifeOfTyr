@@ -52,7 +52,7 @@ public class PlayerInput : MonoBehaviour {
 
     private void GetMouseInput()
     {
-        if(Input.GetMouseButton(0))
+        if(Input.GetMouseButtonDown(0))
         {
             m_EventManager.MouseLeft();
         }

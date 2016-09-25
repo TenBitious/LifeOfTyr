@@ -3,10 +3,15 @@ using System.Collections;
 
 public class BasicAI : MonoBehaviour {
 
+    protected EnemyBehaviour mob;
+    protected string animationName = "Idle";
+
 	// Use this for initialization
-	public virtual void StartBehaviour() {
-	
-	}
+	public virtual void StartBehaviour()
+    {
+        mob = gameObject.GetComponent<EnemyBehaviour>();
+        mob.Anim.CrossFade(animationName);
+    }
 
     // Update is called once per frame
     public virtual void UpdateBehaviour () {
@@ -15,6 +20,13 @@ public class BasicAI : MonoBehaviour {
 
     public virtual void EndBehaviour()
     {
-
+        Destroy(this);
     }
+
+    protected void ChangeState(string state)
+    {
+        mob.ChangeState(state);
+    }
+
+
 }

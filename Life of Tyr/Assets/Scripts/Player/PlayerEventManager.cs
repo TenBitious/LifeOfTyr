@@ -33,6 +33,10 @@ public class PlayerEventManager : MonoBehaviour {
     public delegate void ButtonJumpReleaseAction();
     public static event ButtonJumpReleaseAction OnButtonJumpRelease;
 
+    public delegate void PlayerRespawn();
+    public static event PlayerRespawn OnRespawn;
+
+
     public void Forward()
     {
         if (OnButtonForward != null)
@@ -127,4 +131,11 @@ public class PlayerEventManager : MonoBehaviour {
         }
     }
    
+    public void Respawn()
+    {
+        if(OnRespawn != null)
+        {
+            OnRespawn();
+        }
+    }
 }

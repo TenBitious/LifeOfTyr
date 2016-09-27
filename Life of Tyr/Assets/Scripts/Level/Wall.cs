@@ -4,7 +4,7 @@ using System.Collections;
 [RequireComponent(typeof(Shader_Dissolve_Script))]
 public class Wall : MonoBehaviour {
 
-    private BoxCollider m_Colllider;
+    private Collider m_Colllider;
     
     private Shader_Dissolve_Script m_Shader_Dissolve;
 
@@ -31,7 +31,7 @@ public class Wall : MonoBehaviour {
 
     void OnDrawGizmos()
     {
-        m_Colllider = GetComponent<BoxCollider>();
+        m_Colllider = GetComponent<Collider>();
         //Show in editor that this object can be grabbed
         Vector3 topOfObject = new Vector3(transform.position.x, transform.position.y + m_Colllider.bounds.extents.y, transform.position.z);
         Gizmos.color = Color.green;

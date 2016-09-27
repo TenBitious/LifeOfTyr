@@ -4,8 +4,8 @@ using System.Collections;
 public class Lava : MonoBehaviour {
 
 	// Use this for initialization
-	void Start () {
-	
+	void Start ()
+    {
 	}
 	
 	// Update is called once per frame
@@ -18,7 +18,14 @@ public class Lava : MonoBehaviour {
     {
         if(col.gameObject.name == "Player")
         {
-            PlayerGlobal.Instance.transform.position = PlayerGlobal.Instance.StartPosition;
+            ResetPlayerPosition();
         }
+    }
+
+    void ResetPlayerPosition()
+    {
+        PlayerEventManager EM = PlayerGlobal.Instance.GetComponent<PlayerEventManager>();
+        EM.Respawn();
+        PlayerGlobal.Instance.transform.position = PlayerGlobal.Instance.StartPosition;
     }
 }

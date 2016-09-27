@@ -16,6 +16,8 @@ public class Hook : MonoBehaviour {
 
     void Awake()
     {
+
+        PlayerEventManager.OnRespawn += OnPlayerRespawn;
         Physics.IgnoreCollision(GetComponent<Collider>(), PlayerGlobal.Instance.GetComponent<Collider>());
     }
 	// Use this for initialization
@@ -93,7 +95,7 @@ public class Hook : MonoBehaviour {
             wall_Hooked_On.HookRelease();
         }
 
-        UnregisterDelegates();
+        UnregisterMouseDelegates();
         m_Rigidbody.velocity = Vector3.zero;
         m_HookState = HookState.Retracting;
     }
@@ -128,7 +130,7 @@ public class Hook : MonoBehaviour {
     void StartPullPlayer()
     {
         Debug.Log("Start pull player");
-        UnregisterDelegates();
+        UnregisterMouseDelegates();
         m_HookState = HookState.Pulling_Player;
     }
     void HandlePullingPlayer()
@@ -157,14 +159,20 @@ public class Hook : MonoBehaviour {
 
     void EndHook()
     {
+        PlayerEventManager.OnRespawn -= OnPlayerRespawn;
         PlayerStats.Instance.Shooting_Hook = false;
         //Destroy
         Destroy(this.gameObject);
     }
 
-    void UnregisterDelegates()
+    void UnregisterMouseDelegates()
     {
         PlayerEventManager.OnMouseLeft -= StartPullPlayer;
         PlayerEventManager.OnMouseRight -= StartRetracting;
+    }
+
+    void OnPlayerRespawn()
+    {
+        EndHook();
     }
 }

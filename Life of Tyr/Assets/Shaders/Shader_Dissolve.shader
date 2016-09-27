@@ -41,6 +41,7 @@
 			float _DissolveAmount;
 
 			bool startDissolve, isDissolving;
+
 			//Build object
 			v2f vertexFunction(appdata IN) 
 			{

@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate ()
     {
-        CheckCanMove();
+        //CheckCanMove();
         HandleJumpCooldown();
         HandleMovePosition();
     }
@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour {
 
     
     void CheckCanMove()
-    {
+    {//If player is shooting the player wont be able to move
         if (PlayerStats.Instance.Shooting_Hook) can_Move = false;
         else can_Move = true;
     }
@@ -53,6 +53,8 @@ public class PlayerMovement : MonoBehaviour {
 
         if (can_Move)
         {
+            _Move_Position.Normalize();
+            _Move_Position *= speed_This_Frame;
             m_Rigidbody.MovePosition(transform.position + _Move_Position * speed_This_Frame);
         }
 

@@ -4,13 +4,22 @@ using System.Collections;
 public class MovingPlatform : MonoBehaviour
 {
     public Transform startLocation, endLocation;
+    private Vector3 originalStartPosition, originalEndPosition;
+
     private Transform destination;
     public float speed;
     private Rigidbody m_Rigidbody;
 
+    private GameObject m_Player;
+
 	// Use this for initialization
 	void Start ()
     {
+        m_Player = GameObject.FindGameObjectWithTag("Player");
+
+        originalStartPosition = startLocation.position;
+        originalEndPosition = endLocation.position;
+
         m_Rigidbody = GetComponent<Rigidbody>();
         destination = endLocation;
 	}
@@ -18,16 +27,36 @@ public class MovingPlatform : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate ()
     {
-        Vector3 dir =  destination.transform.position - transform.position;
+        Vector3 dir =  destination.position - transform.position;
         dir.Normalize();
         m_Rigidbody.MovePosition(transform.position + dir * speed * Time.deltaTime);
+
+        //Set location childeren
+        startLocation.position = originalStartPosition;
+        endLocation.position = originalEndPosition;
 
         CheckDestinationReached();
 	}
 
+    void OnCollisionStay(Collision col)
+    {
+        if (col.gameObject == m_Player)
+        {
+            //transform.SetParent(m_Player.transform);
+            m_Player.transform.SetParent(transform);
+        }
+    }
+
+    void OnCollisionExit(Collision col)
+    {
+        if (col.gameObject == m_Player)
+        {
+            m_Player.transform.parent = null;
+        }
+    }
     void CheckDestinationReached()
     {
-        if(Vector3.Distance(transform.position,destination.transform.position)< 0.1f)
+        if(Vector3.Distance(transform.position,destination.position)< 0.1f)
         {
             DestinationReached();
         }
@@ -35,7 +64,16 @@ public class MovingPlatform : MonoBehaviour
 
     void DestinationReached()
     {
-        if (destination = startLocation) destination = endLocation;
-        else if (destination = endLocation) destination = startLocation;
+        Debug.Log("Destination reached");
+        if (destination == startLocation)
+        {
+            Debug.Log("Start location reached");
+            destination = endLocation;
+        }
+        else if (destination == endLocation)
+        {
+            Debug.Log("End location reached");
+            destination = startLocation;
+        }
     }
 }

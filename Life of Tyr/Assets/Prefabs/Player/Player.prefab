@@ -49,7 +49,7 @@ GameObject:
   - 114: {fileID: 114000013990332218}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -61,7 +61,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012702477136}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.1, y: 5.22, z: -25.55}
+  m_LocalPosition: {x: -44.38, y: 10.55, z: -6.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -167,11 +167,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccb7af2e28fd7c0479a297211449e47a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movement_Speed: 15
-  jump_Speed: 250
+  movement_Speed: 20
+  jump_Speed: 300
   jump_Cooldown: 1
   shoot_Speed: 0.6
-  shoot_Distance: 15
+  shoot_Distance: 20
 --- !u!114 &114000011903570278
 MonoBehaviour:
   m_ObjectHideFlags: 1

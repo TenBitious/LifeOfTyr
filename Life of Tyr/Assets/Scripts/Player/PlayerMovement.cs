@@ -12,6 +12,8 @@ public class PlayerMovement : MonoBehaviour {
     private float movement_Speed;
     private float speed_This_Frame;
 
+    private float reduction_Air, reduction_Shooting;
+
     private float jump_Timer;
 
 	// Use this for initialization
@@ -19,6 +21,9 @@ public class PlayerMovement : MonoBehaviour {
     {
         AssignDelegates();
         movement_Speed = PlayerStats.Instance.movement_Speed;
+        reduction_Air = PlayerStats.Instance.reduction_Air;
+        reduction_Shooting = PlayerStats.Instance.reduction_Shooting;
+
         m_Rigidbody = GetComponent<Rigidbody>();
         can_Move = true;
     }
@@ -26,7 +31,8 @@ public class PlayerMovement : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate ()
     {
-        //CheckCanMove();
+        GetSpeedThisFrame();
+        HandleReduction();
         HandleJumpCooldown();
         HandleMovePosition();
     }
@@ -40,17 +46,24 @@ public class PlayerMovement : MonoBehaviour {
         PlayerEventManager.OnButtonJump += Jump;
     }
 
-    
-    void CheckCanMove()
+
+    void HandleReduction()
     {//If player is shooting the player wont be able to move
-        if (PlayerStats.Instance.Shooting_Hook) can_Move = false;
-        else can_Move = true;
+        //if shooting
+        if (PlayerGlobal.Instance.Is_Shooting_Hook)
+        {
+            speed_This_Frame -= speed_This_Frame * reduction_Shooting / 100;
+        }
+        //if in air
+        if (!PlayerGlobal.Instance.Is_Grounded)
+        {
+            speed_This_Frame -= speed_This_Frame * reduction_Air / 100;
+        }
+
     }
     
     void HandleMovePosition()
     {
-        GetSpeedThisFrame();//Get speed
-
         if (can_Move)
         {
             _Move_Position.Normalize();
@@ -86,8 +99,9 @@ public class PlayerMovement : MonoBehaviour {
     void Jump()
     {
         //Jump
-        if (PlayerGlobal.Instance.Grounded() && can_Jump)
+        if (PlayerGlobal.Instance.Is_Grounded && can_Jump)
         {//Check if on ground
+            m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, 0, m_Rigidbody.velocity.z);
             m_Rigidbody.AddForce(Vector3.up * PlayerStats.Instance.jump_Speed, ForceMode.Force);
             can_Jump = false;
             jump_Timer = 0f;

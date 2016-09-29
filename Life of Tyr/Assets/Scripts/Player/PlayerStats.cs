@@ -9,9 +9,11 @@ public class PlayerStats : MonoBehaviour {
 
     public float movement_Speed, jump_Speed;
     public float jump_Cooldown;
-    public float shoot_Speed, shoot_Distance;
 
-    private bool is_Shooting_Hook = false;
+    [Range(0,100)]
+    public float reduction_Air, reduction_Shooting;
+
+    public float shoot_Speed, shoot_Distance;
 
     void Awake()
     {
@@ -36,9 +38,5 @@ public class PlayerStats : MonoBehaviour {
 	
 	}
 
-    public bool Shooting_Hook
-    {
-        get { return is_Shooting_Hook; }
-        set { is_Shooting_Hook = value; }
-    }
+ 
 }

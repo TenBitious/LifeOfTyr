@@ -18,7 +18,7 @@ public class ShootHook : MonoBehaviour {
 
     void Shoot()
     {
-        if (!PlayerStats.Instance.Shooting_Hook)
+        if (!PlayerGlobal.Instance.Is_Shooting_Hook)
         {
             Hook hook = Instantiate(m_Hook) as Hook;
             Vector3 start_Position = Camera.main.transform.position + Camera.main.transform.forward;

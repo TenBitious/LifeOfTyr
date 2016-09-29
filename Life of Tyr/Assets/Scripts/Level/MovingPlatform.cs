@@ -7,6 +7,7 @@ public class MovingPlatform : MonoBehaviour
     private Vector3 originalStartPosition, originalEndPosition;
 
     private Transform destination;
+    [Range(0.1f,5)]
     public float speed;
     private Rigidbody m_Rigidbody;
 
@@ -29,8 +30,9 @@ public class MovingPlatform : MonoBehaviour
     {
         Vector3 dir =  destination.position - transform.position;
         dir.Normalize();
-        m_Rigidbody.MovePosition(transform.position + dir * speed * Time.deltaTime);
+        //m_Rigidbody.MovePosition(transform.position + dir * speed * Time.deltaTime);
 
+        transform.position += dir * speed * Time.deltaTime;
         //Set location childeren
         startLocation.position = originalStartPosition;
         endLocation.position = originalEndPosition;

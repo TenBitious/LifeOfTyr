@@ -6,6 +6,15 @@ public class PlayerGlobal : MonoBehaviour {
     private static PlayerGlobal _instance;
     public static PlayerGlobal Instance { get { return _instance; } }
     private static Vector3 start_Position;
+
+    private Rigidbody m_Rigidbody;
+    private CapsuleCollider m_CapsuleCollider;
+    private Vector3 m_POV;
+    private Transform m_POV_Transform;
+
+    private bool is_Shooting_Hook = false;
+    private bool is_Grounded;
+
     void Awake()
     {
         if (_instance != null && _instance != this)
@@ -18,21 +27,20 @@ public class PlayerGlobal : MonoBehaviour {
         }
     }
 
-    private Rigidbody m_Rigidbody;
-    private Vector3 m_POV;
-    private Transform m_POV_Transform;
-
 	// Use this for initialization
 	void Start () 
     {
         m_Rigidbody = GetComponent<Rigidbody>();
+        m_CapsuleCollider = GetComponent<CapsuleCollider>();
         start_Position = transform.position;
 	}
 
     void Update()
     {
         GetPOV();
+        is_Grounded = Grounded();
     }
+
     public Rigidbody Rigidbody { get { return m_Rigidbody; } }
     public Vector3 PointOfView
     {
@@ -54,10 +62,9 @@ public class PlayerGlobal : MonoBehaviour {
     }
     public bool Grounded()
     {
-        CapsuleCollider m_CapsuleCollider = GetComponent<CapsuleCollider>();
-        float cast_To_Ground = m_CapsuleCollider.bounds.extents.y/4 + 0.2f;
+        float cast_To_Ground = m_CapsuleCollider.bounds.extents.y/4 + 0.1f;
         float capsule_Width = m_CapsuleCollider.bounds.extents.x * .9f;
-        Debug.Log("capsuel width: " + capsule_Width);
+
         Ray cast_Direction = new Ray(transform.position, Vector3.down);
         
 
@@ -71,5 +78,16 @@ public class PlayerGlobal : MonoBehaviour {
             Debug.DrawRay(transform.position, Vector3.down * cast_To_Ground, Color.red, 2f);
         }
         return false;
+    }
+
+    public bool Is_Shooting_Hook
+    {
+        get { return is_Shooting_Hook; }
+        set { is_Shooting_Hook = value; }
+    }
+
+    public bool Is_Grounded
+    {
+        get { return is_Grounded; }
     }
 }

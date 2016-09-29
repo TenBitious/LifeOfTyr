@@ -74,7 +74,7 @@ public class Hook : MonoBehaviour {
         max_Shoot_Distance = t_Shoot_Distance;
         
         m_HookState = HookState.Shooting;
-        PlayerStats.Instance.Shooting_Hook = true;
+        PlayerGlobal.Instance.Is_Shooting_Hook = true;
     }
 
     void HandleShooting()
@@ -160,7 +160,7 @@ public class Hook : MonoBehaviour {
     void EndHook()
     {
         PlayerEventManager.OnRespawn -= OnPlayerRespawn;
-        PlayerStats.Instance.Shooting_Hook = false;
+        PlayerGlobal.Instance.Is_Shooting_Hook = false;
         //Destroy
         Destroy(this.gameObject);
     }

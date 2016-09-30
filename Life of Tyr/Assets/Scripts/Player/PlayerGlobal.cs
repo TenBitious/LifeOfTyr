@@ -13,6 +13,7 @@ public class PlayerGlobal : MonoBehaviour {
     private Transform m_POV_Transform;
 
     private bool is_Shooting_Hook = false;
+    private bool hook_Connected = false;
     private bool is_Grounded;
 
     void Awake()
@@ -84,6 +85,12 @@ public class PlayerGlobal : MonoBehaviour {
     {
         get { return is_Shooting_Hook; }
         set { is_Shooting_Hook = value; }
+    }
+
+    public bool Hook_Connected
+    {
+        get { return hook_Connected; }
+        set { hook_Connected = value; }
     }
 
     public bool Is_Grounded

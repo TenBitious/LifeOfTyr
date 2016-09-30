@@ -66,9 +66,12 @@ public class PlayerMovement : MonoBehaviour {
     {
         if (can_Move)
         {
+            Debug.Log("Move_Position: " + _Move_Position);
             _Move_Position.Normalize();
             _Move_Position *= speed_This_Frame;
+
             m_Rigidbody.MovePosition(transform.position + _Move_Position * speed_This_Frame);
+            //transform.position += _Move_Position * speed_This_Frame;
         }
 
         //Reset temporary move position

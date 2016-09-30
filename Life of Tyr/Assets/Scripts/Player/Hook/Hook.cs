@@ -13,10 +13,11 @@ public class Hook : MonoBehaviour {
     private Wall wall_Hooked_On;
 
     private Rigidbody m_Rigidbody;
+    public Rigidbody joint_Rigidbody;
 
+    private ConfigurableJoint m_Joint, m_Joint_Location, player_Joint;
     void Awake()
     {
-
         PlayerEventManager.OnRespawn += OnPlayerRespawn;
         Physics.IgnoreCollision(GetComponent<Collider>(), PlayerGlobal.Instance.GetComponent<Collider>());
     }
@@ -90,7 +91,8 @@ public class Hook : MonoBehaviour {
 
     void StartRetracting()
     {
-        if(wall_Hooked_On != null)
+        PlayerGlobal.Instance.Hook_Connected = false;
+        if (wall_Hooked_On != null)
         {
             wall_Hooked_On.HookRelease();
         }
@@ -118,13 +120,47 @@ public class Hook : MonoBehaviour {
 
     void HitWall()
     {
+        PlayerGlobal.Instance.Hook_Connected = true;
         wall_Hooked_On.HookHit();
+
+        CreateJoint();
 
         Debug.Log("Hit wall");
         PlayerEventManager.OnMouseLeft += StartPullPlayer;
         PlayerEventManager.OnMouseRight += StartRetracting;
         
         m_HookState = HookState.Waiting_Pull_Player_Order;
+    }
+
+    void CreateJoint()
+    {
+        //Anchor point = hook/JointLocation
+        m_Joint_Location = gameObject.AddComponent<ConfigurableJoint>();
+        m_Joint_Location.axis = Vector3.back;
+        m_Joint_Location.anchor = Vector3.zero;
+
+        m_Joint_Location.xMotion = ConfigurableJointMotion.Locked;
+        m_Joint_Location.yMotion = ConfigurableJointMotion.Locked;
+        m_Joint_Location.zMotion = ConfigurableJointMotion.Locked;
+        //Add hook joint on joint location
+        joint_Rigidbody.isKinematic = false;
+        m_Joint = joint_Rigidbody.gameObject.AddComponent<ConfigurableJoint>();
+        m_Joint.axis = Vector3.back;
+        m_Joint.anchor = Vector3.zero;
+        m_Joint.connectedBody = m_Rigidbody;
+
+        m_Joint.xMotion = ConfigurableJointMotion.Locked;
+        m_Joint.yMotion = ConfigurableJointMotion.Locked;
+        m_Joint.zMotion = ConfigurableJointMotion.Locked;
+        //Add player joint
+        player_Joint = PlayerGlobal.Instance.gameObject.AddComponent<ConfigurableJoint>();
+        player_Joint.axis = Vector3.back;
+        player_Joint.anchor = Vector3.zero;
+        player_Joint.connectedBody = joint_Rigidbody;
+
+        player_Joint.xMotion = ConfigurableJointMotion.Limited;
+        player_Joint.yMotion = ConfigurableJointMotion.Limited;
+        player_Joint.zMotion = ConfigurableJointMotion.Limited;
     }
 
     void StartPullPlayer()
@@ -161,6 +197,7 @@ public class Hook : MonoBehaviour {
     {
         PlayerEventManager.OnRespawn -= OnPlayerRespawn;
         PlayerGlobal.Instance.Is_Shooting_Hook = false;
+        PlayerGlobal.Instance.Hook_Connected = false;
         //Destroy
         Destroy(this.gameObject);
     }

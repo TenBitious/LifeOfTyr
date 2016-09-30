@@ -30,9 +30,9 @@ public class MovingPlatform : MonoBehaviour
     {
         Vector3 dir =  destination.position - transform.position;
         dir.Normalize();
-        //m_Rigidbody.MovePosition(transform.position + dir * speed * Time.deltaTime);
+        m_Rigidbody.MovePosition(transform.position + dir * speed * Time.deltaTime);
 
-        transform.position += dir * speed * Time.deltaTime;
+        //transform.position += dir * speed * Time.deltaTime;
         //Set location childeren
         startLocation.position = originalStartPosition;
         endLocation.position = originalEndPosition;
@@ -66,15 +66,12 @@ public class MovingPlatform : MonoBehaviour
 
     void DestinationReached()
     {
-        Debug.Log("Destination reached");
         if (destination == startLocation)
         {
-            Debug.Log("Start location reached");
             destination = endLocation;
         }
         else if (destination == endLocation)
         {
-            Debug.Log("End location reached");
             destination = startLocation;
         }
     }

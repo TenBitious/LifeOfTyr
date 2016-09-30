@@ -40,7 +40,7 @@
 				v2f OUT;
 				
 				float phase = _Time * 20.0;
-				float offset = (IN.vertex.x * 2.2 + (IN.vertex.z * 2.2)) * 0.5;
+				float offset = (IN.vertex.x * 2.5 + (IN.vertex.z * 5.2)) * 0.5;
 				IN.vertex.y = sin(phase + offset) * 0.2;
 
 				OUT.position = mul(UNITY_MATRIX_MVP, IN.vertex);

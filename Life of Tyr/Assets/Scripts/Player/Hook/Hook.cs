@@ -16,6 +16,8 @@ public class Hook : MonoBehaviour {
     public Rigidbody joint_Rigidbody;
 
     private ConfigurableJoint m_Joint, m_Joint_Location, player_Joint;
+    private PlayerSwing m_Player_Swing;
+
     void Awake()
     {
         PlayerEventManager.OnRespawn += OnPlayerRespawn;
@@ -25,6 +27,7 @@ public class Hook : MonoBehaviour {
 	void Start () 
     {
         m_Rigidbody = GetComponent<Rigidbody>();
+        m_Player_Swing = PlayerGlobal.Instance.GetComponent<PlayerSwing>();
         shoot_Speed = PlayerStats.Instance.shoot_Speed;
 	}
 	
@@ -91,6 +94,7 @@ public class Hook : MonoBehaviour {
 
     void StartRetracting()
     {
+        DestroyJoints();
         PlayerGlobal.Instance.Hook_Connected = false;
         if (wall_Hooked_On != null)
         {
@@ -104,6 +108,7 @@ public class Hook : MonoBehaviour {
 
     void HandleRetracting()
     {
+        Debug.Log("Retracting");
         //Get direction back to player
         shoot_Direction = Camera.main.transform.position - transform.position;
         shoot_Direction.Normalize();
@@ -120,10 +125,12 @@ public class Hook : MonoBehaviour {
 
     void HitWall()
     {
+       
         PlayerGlobal.Instance.Hook_Connected = true;
         wall_Hooked_On.HookHit();
 
-        CreateJoint();
+        CreateJoints();
+        PlayerEventManager.Instance.HookHit();
 
         Debug.Log("Hit wall");
         PlayerEventManager.OnMouseLeft += StartPullPlayer;
@@ -132,7 +139,7 @@ public class Hook : MonoBehaviour {
         m_HookState = HookState.Waiting_Pull_Player_Order;
     }
 
-    void CreateJoint()
+    void CreateJoints()
     {
         //Anchor point = hook/JointLocation
         m_Joint_Location = gameObject.AddComponent<ConfigurableJoint>();
@@ -157,20 +164,18 @@ public class Hook : MonoBehaviour {
         player_Joint.axis = Vector3.back;
         player_Joint.anchor = Vector3.zero;
         player_Joint.connectedBody = joint_Rigidbody;
-
-        player_Joint.xMotion = ConfigurableJointMotion.Limited;
-        player_Joint.yMotion = ConfigurableJointMotion.Limited;
-        player_Joint.zMotion = ConfigurableJointMotion.Limited;
     }
 
     void StartPullPlayer()
     {
+        DestroyJoints();
         Debug.Log("Start pull player");
         UnregisterMouseDelegates();
         m_HookState = HookState.Pulling_Player;
     }
     void HandlePullingPlayer()
     {
+        PlayerGlobal.Instance.Rigidbody.useGravity = false;
         //Get pull direction
         pull_Direction = transform.position - PlayerGlobal.Instance.transform.position;
         pull_Direction.Normalize();
@@ -195,6 +200,7 @@ public class Hook : MonoBehaviour {
 
     void EndHook()
     {
+        PlayerGlobal.Instance.Rigidbody.useGravity = true;
         PlayerEventManager.OnRespawn -= OnPlayerRespawn;
         PlayerGlobal.Instance.Is_Shooting_Hook = false;
         PlayerGlobal.Instance.Hook_Connected = false;
@@ -211,5 +217,14 @@ public class Hook : MonoBehaviour {
     void OnPlayerRespawn()
     {
         EndHook();
+    }
+
+    void DestroyJoints()
+    {
+        PlayerGlobal.Instance.Is_Swinging = false;
+
+        Destroy(m_Joint);
+        Destroy(m_Joint_Location);
+        m_Player_Swing.EndSwing();
     }
 }

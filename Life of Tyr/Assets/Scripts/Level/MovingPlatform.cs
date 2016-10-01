@@ -4,6 +4,7 @@ using System.Collections;
 public class MovingPlatform : MonoBehaviour
 {
     public Transform startLocation, endLocation;
+
     private Vector3 originalStartPosition, originalEndPosition;
 
     private Transform destination;
@@ -12,10 +13,12 @@ public class MovingPlatform : MonoBehaviour
     private Rigidbody m_Rigidbody;
 
     private GameObject m_Player;
+    private bool is_Player_On_Me;
 
 	// Use this for initialization
 	void Start ()
     {
+        IgnoreObjects();
         m_Player = GameObject.FindGameObjectWithTag("Player");
 
         originalStartPosition = startLocation.position;
@@ -24,7 +27,11 @@ public class MovingPlatform : MonoBehaviour
         m_Rigidbody = GetComponent<Rigidbody>();
         destination = endLocation;
 	}
-	
+
+    void IgnoreObjects()
+    {
+
+    }
 	// Update is called once per frame
 	void FixedUpdate ()
     {
@@ -32,6 +39,10 @@ public class MovingPlatform : MonoBehaviour
         dir.Normalize();
         m_Rigidbody.MovePosition(transform.position + dir * speed * Time.deltaTime);
 
+        if (is_Player_On_Me)
+        {
+            PlayerGlobal.Instance.transform.position += dir * speed * Time.deltaTime;
+        }
         //transform.position += dir * speed * Time.deltaTime;
         //Set location childeren
         startLocation.position = originalStartPosition;
@@ -44,8 +55,10 @@ public class MovingPlatform : MonoBehaviour
     {
         if (col.gameObject == m_Player)
         {
+            Debug.Log("Player on me: " + is_Player_On_Me);
+            is_Player_On_Me = true;
             //transform.SetParent(m_Player.transform);
-            m_Player.transform.SetParent(transform);
+           // m_Player.transform.SetParent(transform);
         }
     }
 
@@ -53,7 +66,8 @@ public class MovingPlatform : MonoBehaviour
     {
         if (col.gameObject == m_Player)
         {
-            m_Player.transform.parent = null;
+            is_Player_On_Me = false;
+            //m_Player.transform.parent = null;
         }
     }
     void CheckDestinationReached()

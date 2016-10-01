@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Swing Test.unity
+- path: Assets/Scenes/Natuyre_Scene.unity
   isLoaded: 1
   isActive: 1

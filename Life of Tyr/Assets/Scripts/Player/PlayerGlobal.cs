@@ -15,6 +15,7 @@ public class PlayerGlobal : MonoBehaviour {
     private bool is_Shooting_Hook = false;
     private bool hook_Connected = false;
     private bool is_Grounded;
+    private bool is_Swinging;
 
     void Awake()
     {
@@ -96,5 +97,11 @@ public class PlayerGlobal : MonoBehaviour {
     public bool Is_Grounded
     {
         get { return is_Grounded; }
+    }
+
+    public bool Is_Swinging
+    {
+        get { return is_Swinging; }
+        set { is_Swinging = value; }
     }
 }

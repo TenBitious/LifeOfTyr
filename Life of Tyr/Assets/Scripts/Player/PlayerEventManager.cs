@@ -2,7 +2,20 @@
 using System.Collections;
 
 public class PlayerEventManager : MonoBehaviour {
+    private static PlayerEventManager _instance;
+    public static PlayerEventManager Instance { get { return _instance; } }
 
+    void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
     public delegate void ButtonForwardAction();
     public static event ButtonForwardAction OnButtonForward;
     public delegate void ButtonForwardReleaseAction();
@@ -36,6 +49,8 @@ public class PlayerEventManager : MonoBehaviour {
     public delegate void PlayerRespawn();
     public static event PlayerRespawn OnRespawn;
 
+    public delegate void PlayerHookHit();
+    public static event PlayerHookHit OnHookHit;
 
     public void Forward()
     {
@@ -136,6 +151,14 @@ public class PlayerEventManager : MonoBehaviour {
         if(OnRespawn != null)
         {
             OnRespawn();
+        }
+    }
+
+    public void HookHit()
+    {
+        if(OnHookHit != null)
+        {
+            OnHookHit();
         }
     }
 }

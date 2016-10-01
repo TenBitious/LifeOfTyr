@@ -31,7 +31,6 @@ public class Ball : MonoBehaviour {
     void SpeedBoost()
     {
         speedBoostCooldown = 0f;
-        Debug.Log("SpeedBoost");
         Vector3 speedDir = m_Rigidbody.velocity;
         speedDir.Normalize();
         m_Rigidbody.velocity = speedDir * speedBoost;

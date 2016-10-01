@@ -84,19 +84,19 @@ public class PlayerMovement : MonoBehaviour {
 
     void MoveForward()
     {
-        _Move_Position += transform.forward * speed_This_Frame;
+        transform.Translate(transform.forward * speed_This_Frame, Space.World);
     }
     void MoveBackward()
     {
-        _Move_Position += -transform.forward * speed_This_Frame;
+        transform.Translate(-transform.forward * speed_This_Frame, Space.World);
     }
     void StrifeLeft()
     {
-        _Move_Position += -transform.right * speed_This_Frame;
+        transform.Translate(-transform.right * speed_This_Frame, Space.World);
     }
     void StrifeRight()
     {
-        _Move_Position += transform.right * speed_This_Frame;
+        transform.Translate(transform.right * speed_This_Frame, Space.World);
     }
 
     void Jump()

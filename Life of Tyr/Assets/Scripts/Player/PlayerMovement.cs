@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour {
 
     private bool can_Move, can_Jump;
 
-    private float movement_Speed;
+    private float movement_Speed, swing_Speed;
     private float speed_This_Frame;
 
     private float reduction_Air, reduction_Shooting;
@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour {
     {
         AssignDelegates();
         movement_Speed = PlayerStats.Instance.movement_Speed;
+        swing_Speed = PlayerStats.Instance.swing_Speed;
         reduction_Air = PlayerStats.Instance.reduction_Air;
         reduction_Shooting = PlayerStats.Instance.reduction_Shooting;
 
@@ -84,11 +85,26 @@ public class PlayerMovement : MonoBehaviour {
 
     void MoveForward()
     {
-        transform.Translate(transform.forward * speed_This_Frame, Space.World);
+        if (PlayerGlobal.Instance.Is_Swinging)
+        {
+            Debug.Log("Swing forward");
+            PlayerGlobal.Instance.Rigidbody.AddForce(transform.forward * swing_Speed, ForceMode.Impulse);
+        }
+        else
+        { 
+            transform.Translate(transform.forward * speed_This_Frame, Space.World);
+        }
     }
     void MoveBackward()
     {
-        transform.Translate(-transform.forward * speed_This_Frame, Space.World);
+        if (PlayerGlobal.Instance.Is_Swinging)
+        {
+            PlayerGlobal.Instance.Rigidbody.AddForce(-transform.forward * swing_Speed, ForceMode.Impulse);
+        }
+        else
+        {
+            transform.Translate(-transform.forward * speed_This_Frame, Space.World);
+        }
     }
     void StrifeLeft()
     {

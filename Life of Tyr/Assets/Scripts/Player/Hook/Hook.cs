@@ -149,6 +149,11 @@ public class Hook : MonoBehaviour {
         m_Joint_Location.xMotion = ConfigurableJointMotion.Locked;
         m_Joint_Location.yMotion = ConfigurableJointMotion.Locked;
         m_Joint_Location.zMotion = ConfigurableJointMotion.Locked;
+
+        m_Joint_Location.angularYMotion = ConfigurableJointMotion.Limited;
+        m_Joint_Location.angularZMotion = ConfigurableJointMotion.Limited;
+
+        
         //Add hook joint on joint location
         joint_Rigidbody.isKinematic = false;
         m_Joint = joint_Rigidbody.gameObject.AddComponent<ConfigurableJoint>();
@@ -159,6 +164,20 @@ public class Hook : MonoBehaviour {
         m_Joint.xMotion = ConfigurableJointMotion.Locked;
         m_Joint.yMotion = ConfigurableJointMotion.Locked;
         m_Joint.zMotion = ConfigurableJointMotion.Locked;
+
+        m_Joint.angularXMotion = ConfigurableJointMotion.Limited;
+        m_Joint.angularYMotion = ConfigurableJointMotion.Limited;
+        m_Joint.angularZMotion = ConfigurableJointMotion.Limited;
+
+        SoftJointLimit SJLXLow = m_Joint.lowAngularXLimit;
+        SJLXLow.limit = -90;
+        m_Joint.lowAngularXLimit = SJLXLow;
+        SoftJointLimit SJLXHigh = m_Joint.highAngularXLimit;
+        SJLXHigh.limit = 90;
+        m_Joint.highAngularXLimit = SJLXHigh;
+        SoftJointLimit SJLY = m_Joint.angularYLimit;
+        SJLY.limit = 90;
+        m_Joint.angularZLimit = SJLY;
         //Add player joint
         player_Joint = PlayerGlobal.Instance.gameObject.AddComponent<ConfigurableJoint>();
         player_Joint.axis = Vector3.back;

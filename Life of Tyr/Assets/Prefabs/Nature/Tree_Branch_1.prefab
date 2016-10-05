@@ -22,6 +22,8 @@ GameObject:
   - 33: {fileID: 33000010947919126}
   - 23: {fileID: 23000012840692942}
   - 64: {fileID: 64000011187315296}
+  - 114: {fileID: 114000011288258368}
+  - 114: {fileID: 114000010848350780}
   m_Layer: 0
   m_Name: Tree_Branch_1
   m_TagString: Untagged
@@ -35,9 +37,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013953385622}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0.38861275, y: -7.1300364, z: 14.827594}
-  m_LocalScale: {x: 189.97775, y: 189.97768, z: 918.6057}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: -34.1, y: -1.0201073, z: -19.3}
+  m_LocalScale: {x: 106.630646, y: 106.63066, z: 576.1854}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -55,7 +57,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: ed76fa51515c1cd448f96cfec6988f20, type: 2}
+  - {fileID: 2100000, guid: 49ea3c0923096064cacbef2d9268b271, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
@@ -90,3 +92,27 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 0
   m_Mesh: {fileID: 4300000, guid: 6768d1a98d46be64fbc39e4b387211f1, type: 3}
+--- !u!114 &114000010848350780
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013953385622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80cc97100d92bcb4b8486fdea5df82f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114000011288258368
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013953385622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0a5e5d0f09f30c4f8af18a9f7134963, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dissolveAmount: 0
+  dissolveSpeed: 2

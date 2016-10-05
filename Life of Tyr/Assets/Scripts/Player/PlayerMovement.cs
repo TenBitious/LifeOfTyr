@@ -67,7 +67,6 @@ public class PlayerMovement : MonoBehaviour {
     {
         if (can_Move)
         {
-            Debug.Log("Move_Position: " + _Move_Position);
             _Move_Position.Normalize();
             _Move_Position *= speed_This_Frame;
 

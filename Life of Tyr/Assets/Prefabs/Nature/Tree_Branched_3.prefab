@@ -37,7 +37,6 @@ GameObject:
   - 33: {fileID: 33000010677071948}
   - 23: {fileID: 23000012464407196}
   - 114: {fileID: 114000013556300436}
-  - 114: {fileID: 114000011272968518}
   m_Layer: 0
   m_Name: Sphere.006
   m_TagString: Untagged
@@ -56,6 +55,8 @@ GameObject:
   - 33: {fileID: 33000010061721306}
   - 23: {fileID: 23000012170002482}
   - 64: {fileID: 64000012043096110}
+  - 114: {fileID: 114000012921233384}
+  - 114: {fileID: 114000011857044988}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -322,17 +323,30 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 0
   m_Mesh: {fileID: 4300006, guid: 3c6c9c1ea7d2903478af6f3ee72790b6, type: 3}
---- !u!114 &114000011272968518
+--- !u!114 &114000011857044988
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012913161164}
+  m_GameObject: {fileID: 1000013722787408}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80cc97100d92bcb4b8486fdea5df82f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114000012921233384
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013722787408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0a5e5d0f09f30c4f8af18a9f7134963, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dissolveAmount: 0
+  dissolveSpeed: 2
 --- !u!114 &114000013556300436
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -56,7 +56,7 @@ public class HookJoint : MonoBehaviour {
     //Set target rotation down
     private void SetTargetRotation()
     {
-        m_Rigidbody.mass = 20;
+        m_Rigidbody.mass = 200;
         m_Rigidbody.angularDrag = 300;
     }
 

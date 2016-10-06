@@ -98,6 +98,7 @@ public class Hook : MonoBehaviour {
     void StartRetracting()
     {
         DestroyJoints();
+        PlayerGlobal.Instance.Is_Swinging = false;
         PlayerGlobal.Instance.Hook_Connected = false;
         if (wall_Hooked_On != null)
         {
@@ -157,6 +158,7 @@ public class Hook : MonoBehaviour {
     void StartPullPlayer()
     {
         DestroyJoints();
+        PlayerGlobal.Instance.Is_Swinging = false;
         Debug.Log("Start pull player");
         UnregisterMouseDelegates();
         m_HookState = HookState.Pulling_Player;

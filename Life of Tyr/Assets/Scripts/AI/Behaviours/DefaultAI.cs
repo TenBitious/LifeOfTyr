@@ -5,7 +5,7 @@ public class DefaultAI : BasicAI {
 
     public override void StartBehaviour()
     {
-        animationName = "Idle";
+        animationName = "Attack";
         Debug.Log(animationName);
         base.StartBehaviour();
     }

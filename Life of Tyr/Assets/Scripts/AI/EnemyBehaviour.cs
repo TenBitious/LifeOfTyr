@@ -10,6 +10,7 @@ public class EnemyBehaviour : MonoBehaviour
     public BasicAI ai;
     private GameObject[] players;
     private GameObject target;
+    private Vector3 destination;
     private Animation anim;
     public List<AnimationState> states;
     public Animation Anim { get { return anim; } }
@@ -17,6 +18,8 @@ public class EnemyBehaviour : MonoBehaviour
     public EnemyInfo EnemyInfo { get { return enemyInfo; } }
     public GameObject[] Players { get { return players; } }
     public GameObject Target { get { return target; } set { target = value; } }
+    public Vector3 Destination { get { return destination; } set { destination = value; } }
+
 
     // Use this for initialization
     void Awake()
@@ -26,7 +29,7 @@ public class EnemyBehaviour : MonoBehaviour
         players = GameObject.FindGameObjectsWithTag("Player");
         enemyInfo = GetComponent<EnemyInfo>();
         anim = GetComponent<Animation>();
-        target = GameObject.FindGameObjectWithTag("Player");
+        //target = GameObject.FindGameObjectWithTag("Player");
         ChangeState("DefaultAI");
     }
 

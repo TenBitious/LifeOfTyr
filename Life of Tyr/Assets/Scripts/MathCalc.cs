@@ -7,11 +7,23 @@ public static class MathCalc {
     {
         foreach (GameObject target in targets)
         {
-            if (Vector3.Distance(user.transform.position, target.transform.position) < minimalDistance)
+            if (IsInRange(target.transform.position, user.transform.position, minimalDistance))
             {
                 return target;
             }
         }
         return null;
+    }
+
+    static public bool IsInRange(Vector3 target, Vector3 user, float criteria)
+    {
+        if (Vector3.Distance(target, user) < criteria) return true;
+        return false;
+    }
+
+    static public bool IsOutOfRange(Vector3 target, Vector3 user, float criteria)
+    {
+        if (Vector3.Distance(target, user) > criteria) return true;
+        return false;
     }
 }

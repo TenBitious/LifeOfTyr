@@ -4,12 +4,37 @@ using System;
 
 public class FollowAI : BasicAI {
 
+    public override void StartBehaviour()
+    {
+        animationName = "Walk";
+        base.StartBehaviour();
+    }
     // Update is called once per frame
     public override void UpdateBehaviour()
     {
         base.UpdateBehaviour();
-        RotateToTarget();
+        FindDestination();
+        RotateToTarget(); 
         MoveToTarget();
+    }
+
+    private void FindDestination()
+    {
+        GameObject target = MathCalc.CheckDistance(mob.Players, this.gameObject, mob.EnemyInfo.sightDistance);
+        if (target != null)
+        {
+            mob.Target = target;
+            mob.Destination = mob.Target.transform.position;
+            if(MathCalc.IsInRange(mob.Target.transform.position, this.gameObject.transform.position, mob.EnemyInfo.attackRange))
+            {
+                mob.Rigidbody.velocity = Vector3.zero;
+                ChangeState("AttackAI");
+            }
+        }
+        else
+        {
+            ChangeState("DefaultAI");
+        }
     }
 
     void MoveToTarget()
@@ -19,7 +44,7 @@ public class FollowAI : BasicAI {
 
     void RotateToTarget()
     {
-        Quaternion targetRotation = Quaternion.LookRotation(mob.Target.transform.position - transform.position);
+        Quaternion targetRotation = Quaternion.LookRotation(mob.Destination - transform.position);
 
         // Disable rotation on the xz axis
         targetRotation.x = 0.0f;

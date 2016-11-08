@@ -16,8 +16,11 @@ public class HookJoint : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () 
+	void FixedUpdate () 
     {
+        //Handle rotation velocity
+        HandleRotation();
+        UpdateJoints();
 	}
 
     //Create joint
@@ -45,26 +48,31 @@ public class HookJoint : MonoBehaviour {
 
         m_Joint.rotationDriveMode = RotationDriveMode.Slerp;
         JointDrive SD = m_Joint.slerpDrive;
-        SetTargetRotation();
+
         //SD.positionSpring = 10000;
         //SD.positionDamper = 10;
         m_Joint.slerpDrive = SD;
 
     }
 
-    
-    //Set target rotation down
-    private void SetTargetRotation()
+    void UpdateJoints()
     {
-        m_Rigidbody.mass = 200;
-        m_Rigidbody.angularDrag = 300;
+        if (m_Joint != null)
+        { 
+            m_Joint.anchor = Vector3.zero;
+            m_Joint.axis = Vector3.zero;
+        }
     }
 
-    void OnInspectorGUI()
+    void HandleRotation()
     {
-        if (GUILayout.Button("Update target rotation"))
+        if (PlayerGlobal.Instance.Is_Swinging)
         {
-            
+
+        }
+        else
+        {
+            m_Rigidbody.angularVelocity = Vector3.zero;
         }
     }
 }

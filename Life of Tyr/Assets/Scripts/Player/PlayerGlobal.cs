@@ -12,10 +12,11 @@ public class PlayerGlobal : MonoBehaviour {
     private Vector3 m_POV;
     private Transform m_POV_Transform;
 
+    private float swing_Multiplier;
     private bool is_Shooting_Hook = false;
     private bool hook_Connected = false;
-    private bool is_Grounded;
-    private bool is_Swinging;
+    private bool is_Grounded, is_Swinging;
+    private bool can_Walk;
 
     void Awake()
     {
@@ -32,6 +33,8 @@ public class PlayerGlobal : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
     {
+        can_Walk = true;
+
         m_Rigidbody = GetComponent<Rigidbody>();
         m_CapsuleCollider = GetComponent<CapsuleCollider>();
         start_Position = transform.position;
@@ -62,9 +65,16 @@ public class PlayerGlobal : MonoBehaviour {
     {
         get { return start_Position; }
     }
+
+    public float Swing_Multiplier
+    {
+        get { return swing_Multiplier; }
+        set { swing_Multiplier = value; }
+    }
+
     public bool Grounded()
     {
-        float cast_To_Ground = m_CapsuleCollider.bounds.extents.y/4 + 0.1f;
+        float cast_To_Ground = m_CapsuleCollider.bounds.extents.y/2 + 0.1f;
         float capsule_Width = m_CapsuleCollider.bounds.extents.x * .9f;
 
         Ray cast_Direction = new Ray(transform.position, Vector3.down);
@@ -103,5 +113,11 @@ public class PlayerGlobal : MonoBehaviour {
     {
         get { return is_Swinging; }
         set { is_Swinging = value; }
+    }
+
+    public bool Can_Walk
+    {
+        get { return can_Walk; }
+        set { can_Walk = value; }
     }
 }

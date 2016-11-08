@@ -7,8 +7,9 @@ public class PlayerStats : MonoBehaviour {
     private static PlayerStats _instance;
     public static PlayerStats Instance { get { return _instance; } }
 
-    public float movement_Speed, jump_Speed;
+    public float movement_Speed, max_Movement_Speed;
     public float swing_Speed, max_Swing_Speed;
+    public float jump_Speed;
     public float jump_Cooldown;
 
     [Range(0,100)]

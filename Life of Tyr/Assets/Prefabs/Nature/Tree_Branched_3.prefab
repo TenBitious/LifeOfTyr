@@ -55,7 +55,6 @@ GameObject:
   - 33: {fileID: 33000010061721306}
   - 23: {fileID: 23000012170002482}
   - 64: {fileID: 64000012043096110}
-  - 114: {fileID: 114000012921233384}
   - 114: {fileID: 114000011857044988}
   m_Layer: 0
   m_Name: Cylinder
@@ -117,10 +116,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011452191070}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -31.2, y: -6.6801076, z: -1.6}
+  m_LocalRotation: {x: -0, y: 0.36415768, z: -0, w: 0.93133736}
+  m_LocalPosition: {x: -12.21, y: -6.680107, z: -43.89}
   m_LocalScale: {x: 2, y: 2, z: 2}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 42.793003, z: 0}
   m_Children:
   - {fileID: 4000010436377382}
   - {fileID: 4000013188359054}
@@ -334,19 +333,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80cc97100d92bcb4b8486fdea5df82f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114000012921233384
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013722787408}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0a5e5d0f09f30c4f8af18a9f7134963, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dissolveAmount: 0
-  dissolveSpeed: 2
 --- !u!114 &114000013556300436
 MonoBehaviour:
   m_ObjectHideFlags: 1

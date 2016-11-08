@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Natuyre_Scene.unity
+- path: Assets/Scenes/WalkWayScene.unity
   isLoaded: 1
   isActive: 1
